@@ -1,3 +1,4 @@
+import os
 import html
 from newspaper import Article
 
@@ -40,7 +41,7 @@ def write_article_to_file(file, article: Article):
             write_list(file, title, content)
         else:
             write_in(file, f"# {content}")
-            print(article.title)
+            print(article.title + ' is ready')
 
 
 def uncrawl(url, path):
@@ -50,10 +51,25 @@ def uncrawl(url, path):
         path with markdown filename
     """
     file_name = path + '.md'
+    dir_path = os.path.dirname(file_name)
+    if dir_path and not os.path.exists(dir_path):
+        os.makedirs(dir_path)
 
-    with open(file_name, 'w'):
-        pass
+    try:
+        with open(file_name, 'w'):
+            pass
+    except IOError as e:
+        print(f"Error creating file '{file_name}': {e}")
+        return
 
-    article = process_article(url)
-    with open(file_name, 'a') as file:
-        write_article_to_file(file, article)
+    try:
+        article = process_article(url)
+    except Exception as e:
+        print(f"Error processing article from URL '{url}': {e}")
+        return
+
+    try:
+        with open(file_name, 'a') as file:
+            write_article_to_file(file, article)
+    except IOError as e:
+        print(f"Error appending to file '{file_name}': {e}")
