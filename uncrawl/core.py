@@ -47,7 +47,7 @@ def write_article_to_file(file, article: Article):
 def uncrawl(url, path):
     """
     :type url: str
-    :type path: int 
+    :type path: str 
         path with markdown filename
     """
     file_name = path + '.md'

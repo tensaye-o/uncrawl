@@ -19,7 +19,7 @@ path = "docs/article"
 uncrawl(url, path)
 """
 :type url: str
-:type path: int
+:type path: str
   path with markdown filename
 """
 ```
